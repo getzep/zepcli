@@ -16,7 +16,7 @@ var (
 var rootCmd = &cobra.Command{
 	Use:   "zepcli",
 	Short: "zepcli is a utility for interacting with the zep service",
-	Run:   func(cmd *cobra.Command, args []string) { run() },
+	Run:   run,
 }
 
 func init() {
@@ -28,24 +28,26 @@ func init() {
 // Execute executes the root cobra command.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		_, err := fmt.Fprintf(os.Stderr, "Error executing command: %s\n", err)
-		if err != nil {
-			return
-		}
+		fmt.Fprintf(os.Stderr, "Error executing command: %s\n", err)
 		os.Exit(1)
 	}
 }
 
-func run() {
+func run(cmd *cobra.Command, args []string) {
+	if !cmd.Flags().Lookup("version").Changed && !cmd.Flags().Lookup("init-jwt").Changed {
+		cmd.Help()
+		os.Exit(0)
+	}
+
 	if showVersion {
 		fmt.Printf("zep-cli version %s\n", VersionString)
 		return
-	} else if initJWT {
-		err := jwttools.GenerateJWT()
-		if err != nil {
+	}
+
+	if initJWT {
+		if err := jwttools.GenerateJWT(); err != nil {
 			fmt.Fprintf(os.Stderr, "Error initializing JWT: %s\n", err)
 			os.Exit(1)
 		}
-		return
 	}
 }
