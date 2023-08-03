@@ -20,7 +20,7 @@ cd zepcli
 make build
 ```
 
-### From binary with `go install`
+### With `go install`
 
 ```bash
 go install github.com/getzep/zepcli@latest
