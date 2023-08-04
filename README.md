@@ -12,7 +12,7 @@ zepcli -i
 
 ## Installation
 
-MacOS, Linux, and Windows binaries are available on the [releases page](/releases).
+MacOS, Linux, and Windows binaries are available on the [releases page](https://github.com/getzep/zepcli/releases).
 
 ### From source
 
